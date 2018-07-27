@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Service" targetNamespace="http://tempuri.org/NS.xsd/Service.wsdl" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:NS1="http://tempuri.org/NS1.xsd" xmlns:tns="http://tempuri.org/NS.xsd/Service.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/" xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:NS="http://tempuri.org/NS.xsd" xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/">
+  <types>
+    <schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://tempuri.org/NS1.xsd" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:NS="http://tempuri.org/NS.xsd" xmlns:NS1="http://tempuri.org/NS1.xsd" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="RouteDataSync_Head">
+   <sequence>
+     <element maxOccurs="1" minOccurs="1" name="MSGTYPE" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="1" name="RECORDTYPE" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="1" name="VERSION" nillable="true" type="xsd:string"/>
+   </sequence>
+  </complexType>
+  <complexType name="RouteDataSyncReq_Body">
+   <sequence>
+     <element maxOccurs="1" minOccurs="1" name="SESSIONID" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="1" name="SERIAL_NUM" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="1" name="ROUTE_TYPE" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="ROUTE_VALUE" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="BROADBAND_ACCOUNT_ID" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="ACTIVE_TIME" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="INACTIVE_TIME" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="MODIFIED_TIME" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="STATUS" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="SYSTEM_CODE" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="USER_TYPE" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="PROV_CODE" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="EPARCHY_CODE" nillable="true" type="xsd:string"/>
+   </sequence>
+  </complexType>
+  <complexType name="RouteDataSyncRsp_Body">
+   <sequence>
+     <element maxOccurs="1" minOccurs="1" name="SESSIONID" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="1" name="SERIAL_NUM" nillable="true" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="1" name="RESULTCODE" nillable="true" type="xsd:string"/>
+   </sequence>
+  </complexType>
+ </schema>
+    <schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://tempuri.org/NS.xsd" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:NS="http://tempuri.org/NS.xsd" xmlns:NS1="http://tempuri.org/NS1.xsd" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="RouteDataSyncRequest">
+   <sequence>
+     <element maxOccurs="1" minOccurs="1" name="MSGHEADER" nillable="true" type="NS1:RouteDataSync_Head"/>
+     <element maxOccurs="1" minOccurs="1" name="MSGBODY" nillable="true" type="NS1:RouteDataSyncReq_Body"/>
+   </sequence>
+  </complexType>
+  <!-- operation request element -->
+  <element name="RouteDataSyn">
+   <complexType>
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="request" nillable="true" type="NS:RouteDataSyncRequest"/>
+    </sequence>
+   </complexType>
+  </element>
+  <!-- operation response element -->
+  <element name="RouteDataSyncResponse">
+   <complexType>
+    <sequence>
+     <element maxOccurs="1" minOccurs="1" name="MSGHEADER" nillable="true" type="NS1:RouteDataSync_Head"/>
+     <element maxOccurs="1" minOccurs="1" name="MSGBODY" nillable="true" type="NS1:RouteDataSyncRsp_Body"/>
+    </sequence>
+   </complexType>
+  </element>
+ </schema>
+  </types>
+  <message name="RouteDataSyn">
+    <part name="parameters" element="NS:RouteDataSyn">
+    </part>
+  </message>
+  <message name="RouteDataSyncResponse">
+    <part name="parameters" element="NS:RouteDataSyncResponse">
+    </part>
+  </message>
+  <portType name="ServicePortType">
+    <operation name="RouteDataSyn">
+<documentation>Service definition of function NS__RouteDataSyn</documentation>
+      <input message="tns:RouteDataSyn">
+    </input>
+      <output message="tns:RouteDataSyncResponse">
+    </output>
+    </operation>
+  </portType>
+  <binding name="Service" type="tns:ServicePortType">
+    <SOAP:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="RouteDataSyn">
+      <SOAP:operation soapAction=""/>
+      <input>
+        <SOAP:body parts="parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="parameters" use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Service">
+<documentation>gSOAP 2.7.13 generated service definition</documentation>
+    <port name="Service" binding="tns:Service">
+      <SOAP:address location="http://localhost:80"/>
+    </port>
+  </service>
+</definitions>
