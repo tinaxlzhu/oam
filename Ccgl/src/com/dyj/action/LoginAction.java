@@ -5,7 +5,6 @@ import java.sql.Connection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.dyj.dao.UserDao;
@@ -58,14 +57,10 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 		this.user = user;
 	}
 
-
-
 	HttpServletRequest request;
 	UserDao userdao = new UserDao();
 	DbUtil dbutil = new DbUtil();
 
-	
-	
 	@Override
 	public String execute() throws Exception {
 		System.out.println(request.getParameter("s_userName"));
@@ -76,13 +71,12 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 	public String login() throws Exception {
 		int error;
 		HttpSession session = request.getSession();
-		if (StringUtil.isEmpty(s_userName)
-				|| StringUtil.isEmpty(s_password)) {
-			error=1;
+		if (StringUtil.isEmpty(s_userName) || StringUtil.isEmpty(s_password)) {
+			error = 1;
 			ResponseUtil2.write(error);
 			return null;
 		}
-		if (StringUtil.isEmpty(s_code)){
+		if (StringUtil.isEmpty(s_code)) {
 			error = 2;
 			ResponseUtil2.write(error);
 			return null;
@@ -123,7 +117,8 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 		this.request = request;
 
 	}
-	public String loginOut() throws Exception{
+
+	public String loginOut() throws Exception {
 		HttpSession session = request.getSession();
 		session.removeAttribute("currentUser");
 		return "loginOut";

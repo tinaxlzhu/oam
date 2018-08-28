@@ -11,12 +11,13 @@ import com.dyj.model.Supplier;
 import com.dyj.util.StringUtil;
 
 public class GoodcategoriesDao {
-	public ArrayList<Goodcategories> getGoodcategoriesList(Connection con)throws Exception{
+	public ArrayList<Goodcategories> getGoodcategoriesList(Connection con)
+			throws Exception {
 		ArrayList<Goodcategories> goodcategoriesList = new ArrayList<Goodcategories>();
 		String sql = "select * from t_goodcategories";
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-		while(rs.next()){
+		while (rs.next()) {
 			Goodcategories goodcategories = new Goodcategories();
 			goodcategories.setId(rs.getInt("id"));
 			goodcategories.setGoodname(rs.getString("goodname"));
@@ -24,49 +25,66 @@ public class GoodcategoriesDao {
 		}
 		return goodcategoriesList;
 	}
-	public ResultSet goodcategoriesList(Connection con,PageBean pageBean,Goodcategories goodcategories)throws Exception{
-		StringBuffer sb=new StringBuffer("select * from t_goodcategories");
-		if(goodcategories!=null&&StringUtil.isNotEmpty(goodcategories.getGoodname())){
-			sb.append(" and goodname like '%"+goodcategories.getGoodname()+"%'");
+
+	public ResultSet goodcategoriesList(Connection con, PageBean pageBean,
+			Goodcategories goodcategories) throws Exception {
+		StringBuffer sb = new StringBuffer("select * from t_goodcategories");
+		if (goodcategories != null
+				&& StringUtil.isNotEmpty(goodcategories.getGoodname())) {
+			sb.append(" and goodname like '%" + goodcategories.getGoodname()
+					+ "%'");
 		}
-		if(pageBean!=null){
-			sb.append(" limit "+pageBean.getStart()+","+pageBean.getRows());
+		if (pageBean != null) {
+			sb.append(" limit " + pageBean.getStart() + ","
+					+ pageBean.getRows());
 		}
-		PreparedStatement pstmt=con.prepareStatement(sb.toString().replaceFirst("and", "where"));
+		PreparedStatement pstmt = con.prepareStatement(sb.toString()
+				.replaceFirst("and", "where"));
 		return pstmt.executeQuery();
 	}
-	public int goodcategoriesCount(Connection con,Goodcategories goodcategories)throws Exception{
-		StringBuffer sb=new StringBuffer("select count(*) as total from t_goodcategories");
-		if(StringUtil.isNotEmpty(goodcategories.getGoodname())){
-			sb.append(" and goodname like '%"+goodcategories.getGoodname()+"%'");
+
+	public int goodcategoriesCount(Connection con, Goodcategories goodcategories)
+			throws Exception {
+		StringBuffer sb = new StringBuffer(
+				"select count(*) as total from t_goodcategories");
+		if (StringUtil.isNotEmpty(goodcategories.getGoodname())) {
+			sb.append(" and goodname like '%" + goodcategories.getGoodname()
+					+ "%'");
 		}
-		PreparedStatement pstmt=con.prepareStatement(sb.toString().replaceFirst("and", "where"));
-		ResultSet rs=pstmt.executeQuery();
-		if(rs.next()){
+		PreparedStatement pstmt = con.prepareStatement(sb.toString()
+				.replaceFirst("and", "where"));
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next()) {
 			return rs.getInt("total");
-		}else{
+		} else {
 			return 0;
 		}
 	}
-	public int goodcategoriesDelete(Connection con,String delIds)throws Exception{
-		String sql="delete from t_goodcategories where id in("+delIds+")";
-		PreparedStatement pstmt=con.prepareStatement(sql);
+
+	public int goodcategoriesDelete(Connection con, String delIds)
+			throws Exception {
+		String sql = "delete from t_goodcategories where id in(" + delIds + ")";
+		PreparedStatement pstmt = con.prepareStatement(sql);
 		return pstmt.executeUpdate();
 	}
-	public int goodcategoriesAdd(Connection con,Goodcategories goodcategories)throws Exception {
-		String sql="insert into t_goodcategories values(null,?,?)";
-		PreparedStatement pstmt=con.prepareStatement(sql);
+
+	public int goodcategoriesAdd(Connection con, Goodcategories goodcategories)
+			throws Exception {
+		String sql = "insert into t_goodcategories values(null,?,?)";
+		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setString(1, goodcategories.getGoodname());
 		pstmt.setString(2, goodcategories.getDescription());
 		return pstmt.executeUpdate();
 	}
-	public int goodcategoriesModify(Connection con,Goodcategories goodcategories)throws Exception{
-		String sql="update t_goodcategories set goodname=?,description=? where id=?";
-		PreparedStatement pstmt=con.prepareStatement(sql);
+
+	public int goodcategoriesModify(Connection con,
+			Goodcategories goodcategories) throws Exception {
+		String sql = "update t_goodcategories set goodname=?,description=? where id=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setString(1, goodcategories.getGoodname());
 		pstmt.setString(2, goodcategories.getDescription());
 		pstmt.setInt(3, goodcategories.getId());
 		return pstmt.executeUpdate();
 	}
-	
+
 }

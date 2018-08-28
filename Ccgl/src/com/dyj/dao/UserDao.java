@@ -6,21 +6,20 @@ import java.sql.ResultSet;
 
 import com.dyj.model.User;
 
-
 public class UserDao {
-  public User Login (Connection con,User user) throws Exception{
-	  User ResultUser = null;
-	  String sql = "select * from t_user where userName=? and password=?";
-	  PreparedStatement pstmt = con.prepareStatement(sql);
-	  pstmt.setString(1,user.getUserName());
-	  pstmt.setString(2,user.getPassword());
-	  ResultSet rs = pstmt.executeQuery();
-	  while(rs.next()){
-		  ResultUser = new User();
-		  ResultUser.setId(rs.getInt("id"));
-		  ResultUser.setUserName(rs.getString("userName"));
-		  ResultUser.setPassword(rs.getString("password"));
-	  }
-	  return ResultUser;
-  }
+	public User Login(Connection con, User user) throws Exception {
+		User ResultUser = null;
+		String sql = "select * from t_user where userName=? and password=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, user.getUserName());
+		pstmt.setString(2, user.getPassword());
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			ResultUser = new User();
+			ResultUser.setId(rs.getInt("id"));
+			ResultUser.setUserName(rs.getString("userName"));
+			ResultUser.setPassword(rs.getString("password"));
+		}
+		return ResultUser;
+	}
 }

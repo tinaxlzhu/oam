@@ -17,28 +17,27 @@ import com.dyj.model.Stock;
 import com.dyj.util.DbUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class IndexAction extends ActionSupport implements ServletRequestAware{
+public class IndexAction extends ActionSupport implements ServletRequestAware {
 
 	private static DbUtil dbutil = new DbUtil();
 	private static StockDao stockdao = new StockDao();
 	private static GoodDao gooddao = new GoodDao();
 	private static ArrayList<Goodcategories> goodcategories;
 	private HttpServletRequest request;
-	
-	
-	
+
 	@Override
 	public String execute() throws Exception {
 		Connection con = null;
 		HttpSession session = request.getSession();
-		con=dbutil.getCon();
+		con = dbutil.getCon();
 		String sql = "SELECT id,goodname,t_stock.goodnumber AS goodmumber FROM t_good,t_stock WHERE t_good.id=t_stock.goodid";
-		ArrayList<Good> goodList = gooddao.getGoodList(con,sql);
+		ArrayList<Good> goodList = gooddao.getGoodList(con, sql);
 		session.setAttribute("goodList", goodList);
 		return "index";
 	}
+
 	public void setServletRequest(HttpServletRequest request) {
-		this.request=request;
+		this.request = request;
 	}
-   
+
 }

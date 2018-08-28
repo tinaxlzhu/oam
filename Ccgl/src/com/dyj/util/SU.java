@@ -20,114 +20,121 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Servlet Util HTTP´¦Àí
+ * Servlet Util HTTPï¿½ï¿½ï¿½ï¿½
+ * 
  * @author viscar
  *
  */
 public class SU {
-	private static final Log log =LogFactory.getLog(SU.class);
-		
-	public static void main(String[] args){
-//		String key="TEST_yKssfffDDD_dS_s";
-//		String[] f=key.split("_");
-//		String field="";
-//		for(int k=0;k<f.length;k++){
-//			if(k==0){
-//				field+=f[k].toLowerCase();
-//			}else{
-//				if(f[k]!=null){//´¦ÀíFI_Çé¿ö
-//					String first=""+f[k].charAt(0);
-//					if(f[k].length()<2){
-//						field+=first.toUpperCase();
-//					}else{
-//						field+=first.toUpperCase()+(f[k].substring(1)).toLowerCase();
-//					}
-//				}
-//			}			
-//		}
-//		System.out.println(field);
-//		Long l = new Long("");
+	private static final Log log = LogFactory.getLog(SU.class);
+
+	public static void main(String[] args) {
+		// String key="TEST_yKssfffDDD_dS_s";
+		// String[] f=key.split("_");
+		// String field="";
+		// for(int k=0;k<f.length;k++){
+		// if(k==0){
+		// field+=f[k].toLowerCase();
+		// }else{
+		// if(f[k]!=null){//ï¿½ï¿½ï¿½ï¿½FI_ï¿½ï¿½ï¿½
+		// String first=""+f[k].charAt(0);
+		// if(f[k].length()<2){
+		// field+=first.toUpperCase();
+		// }else{
+		// field+=first.toUpperCase()+(f[k].substring(1)).toLowerCase();
+		// }
+		// }
+		// }
+		// }
+		// System.out.println(field);
+		// Long l = new Long("");
 	}
-	
+
 	/**
-	 * ´ÓRequestÖÐ¶Á³öXML
+	 * ï¿½ï¿½Requestï¿½Ð¶ï¿½ï¿½ï¿½XML
+	 * 
 	 * @param req
 	 * @return
 	 */
-	public static String reqXml(HttpServletRequest req){
-		String xml="";
+	public static String reqXml(HttpServletRequest req) {
+		String xml = "";
 		StringBuffer data = new StringBuffer();
 		String line = null;
 		try {
 			BufferedReader reader = req.getReader();
-			while((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null) {
 				data.append(line);
 			}
-			xml=data.toString();
-			if(log.isDebugEnabled()){
-				log.debug("reqXml write XML="+xml);
+			xml = data.toString();
+			if (log.isDebugEnabled()) {
+				log.debug("reqXml write XML=" + xml);
 			}
-		}catch(Exception e) {
-			log.error(" ***¶ÁÈ¡HttpRequestÖÐµÄÊý¾ÝÖÐÊ±³ö´í!**");
-			log.error(" ***´íÎóÂë:\n"+e.getMessage());
+		} catch (Exception e) {
+			log.error(" ***ï¿½ï¿½È¡HttpRequestï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½!**");
+			log.error(" ***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:\n" + e.getMessage());
 		}
 		return xml;
 	}
-	
+
 	/**
-	 * °ÑXMLÊý¾Ý·ÅÈëHttpResponseÖÐ
+	 * ï¿½ï¿½XMLï¿½ï¿½Ý·ï¿½ï¿½ï¿½HttpResponseï¿½ï¿½
+	 * 
 	 * @param rep
 	 * @param xml
 	 */
-	public static void repXml(HttpServletResponse rep,String xml){
+	public static void repXml(HttpServletResponse rep, String xml) {
 		try {
-			rep.setContentType("text/xml; charset=UTF-8");	
+			rep.setContentType("text/xml; charset=UTF-8");
 			rep.getWriter().print(xml);
-			if(log.isDebugEnabled()){
-				log.debug("repXml write XML="+xml);
+			if (log.isDebugEnabled()) {
+				log.debug("repXml write XML=" + xml);
 			}
 		} catch (IOException e) {
-			log.error(" ***°ÑXMLÊý¾Ý·ÅÈëHttpResponseÖÐÊ±³ö´í!**");
-			log.error(" ***´íÎóÂë:\n"+e.getMessage());
+			log.error(" ***ï¿½ï¿½XMLï¿½ï¿½Ý·ï¿½ï¿½ï¿½HttpResponseï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½!**");
+			log.error(" ***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:\n" + e.getMessage());
 		}
 	}
-	
+
 	/**
-	 * °ÑÊý¾Ý×ª³ÉJSON
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½JSON
+	 * 
 	 * @param rep
 	 * @param o
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public static void repJson(HttpServletResponse rep, Object o) throws IOException{
-        Map map = new HashMap();
-        map.put("data", o);	
+	public static void repJson(HttpServletResponse rep, Object o)
+			throws IOException {
+		Map map = new HashMap();
+		map.put("data", o);
 		JSONArray jsonArray = JSONArray.fromObject(map);
 		String str = jsonArray.toString();
-		String modifyed_str = str.substring(1,str.length()-1);
-		if(log.isDebugEnabled()){
-			log.debug("repJson write JSON="+modifyed_str);
+		String modifyed_str = str.substring(1, str.length() - 1);
+		if (log.isDebugEnabled()) {
+			log.debug("repJson write JSON=" + modifyed_str);
 		}
 		rep.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = rep.getWriter();
 		out.print(modifyed_str);
 	}
-	
+
 	/**
-	 * °ÑÊý¾Ý×ª³ÉJSON contentType Îª text/html 
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½JSON contentType Îª text/html
+	 * 
 	 * @param rep
 	 * @param o
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public static void repJsonHtml(HttpServletResponse rep, Object o) throws IOException{
-        Map map = new HashMap();
-        map.put("data", o);	
+	public static void repJsonHtml(HttpServletResponse rep, Object o)
+			throws IOException {
+		Map map = new HashMap();
+		map.put("data", o);
 		JSONArray jsonArray = JSONArray.fromObject(map);
 		String str = jsonArray.toString();
-		String modifyed_str = str.substring(1,str.length()-1);
-		if(log.isDebugEnabled()){
-			log.debug("repJson write JSON="+modifyed_str);
+		String modifyed_str = str.substring(1, str.length() - 1);
+		if (log.isDebugEnabled()) {
+			log.debug("repJson write JSON=" + modifyed_str);
 		}
 		rep.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = rep.getWriter();
@@ -135,20 +142,21 @@ public class SU {
 	}
 
 	/**
-	 * ½«listÀïmapÀïÃæµÄnullÖµ×¨Îª¡°¡±
+	 * ï¿½ï¿½listï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½ï¿½nullÖµ×¨Îªï¿½ï¿½ï¿½ï¿½
+	 * 
 	 * @param list
 	 * @return
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public static List listMapNullToList(List list) throws Exception{
+	public static List listMapNullToList(List list) throws Exception {
 		List maps = new ArrayList();
 		for (int i = 0; i < list.size(); i++) {
 			Map map = (Map) list.get(i);
 			Iterator iter = map.entrySet().iterator();
 			while (iter.hasNext()) {
-				Entry entry = (Entry)iter.next();
-				if(entry.getValue() == null) {
+				Entry entry = (Entry) iter.next();
+				if (entry.getValue() == null) {
 					map.put(entry.getKey(), "");
 				}
 			}
@@ -156,163 +164,172 @@ public class SU {
 		}
 		return maps;
 	}
-	
-	public static String toJson(Object o){
+
+	public static String toJson(Object o) {
 		Map map = new HashMap();
-        map.put("datas", o);
+		map.put("datas", o);
 		JSONArray jsonArray = JSONArray.fromObject(map);
 		String str = jsonArray.toString();
-		String modifyed_str = str.substring(1,str.length()-1);
-		if(log.isDebugEnabled()){
-			log.debug("toJson write JSON="+modifyed_str);
+		String modifyed_str = str.substring(1, str.length() - 1);
+		if (log.isDebugEnabled()) {
+			log.debug("toJson write JSON=" + modifyed_str);
 		}
 		return modifyed_str;
 	}
-	
+
 	/**
-	 * °ÑJSÊý¾Ý·ÅÈëHttpResponseÖÐ
+	 * ï¿½ï¿½JSï¿½ï¿½Ý·ï¿½ï¿½ï¿½HttpResponseï¿½ï¿½
+	 * 
 	 * @param rep
 	 * @param js
 	 */
-	public static void repJs(HttpServletResponse rep,String js){
+	public static void repJs(HttpServletResponse rep, String js) {
 		try {
-			rep.setContentType("text/html; charset=UTF-8");	
-			rep.getWriter().print("<script>"+js+"</script>");
-			if(log.isDebugEnabled()){
-				log.debug("repJs write js="+js);
+			rep.setContentType("text/html; charset=UTF-8");
+			rep.getWriter().print("<script>" + js + "</script>");
+			if (log.isDebugEnabled()) {
+				log.debug("repJs write js=" + js);
 			}
 		} catch (IOException e) {
-			log.error(" ***°ÑjsÊý¾Ý·ÅÈëHttpResponseÖÐÊ±³ö´í!**");
-			log.error(" ***´íÎóÂë:\n"+e.getMessage());
+			log.error(" ***ï¿½ï¿½jsï¿½ï¿½Ý·ï¿½ï¿½ï¿½HttpResponseï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½!**");
+			log.error(" ***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:\n" + e.getMessage());
 		}
 	}
-	
+
 	/**
-	 * °ÑHTMLÊý¾Ý·ÅÈëHttpResponseÖÐ
+	 * ï¿½ï¿½HTMLï¿½ï¿½Ý·ï¿½ï¿½ï¿½HttpResponseï¿½ï¿½
+	 * 
 	 * @param rep
 	 * @param js
 	 */
-	public static void repHtml(HttpServletResponse rep,String html){
+	public static void repHtml(HttpServletResponse rep, String html) {
 		try {
-			rep.setContentType("text/html; charset=UTF-8");	
+			rep.setContentType("text/html; charset=UTF-8");
 			rep.getWriter().print(html);
-			if(log.isDebugEnabled()){
-				//log.debug("Html write html="+html);
+			if (log.isDebugEnabled()) {
+				// log.debug("Html write html="+html);
 			}
 		} catch (IOException e) {
-			log.error(" ***°ÑhtmlÊý¾Ý·ÅÈëHttpResponseÖÐÊ±³ö´í!**");
-			log.error(" ***´íÎóÂë:\n"+e.getMessage());
+			log.error(" ***ï¿½ï¿½htmlï¿½ï¿½Ý·ï¿½ï¿½ï¿½HttpResponseï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½!**");
+			log.error(" ***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:\n" + e.getMessage());
 		}
 	}
-	
+
 	/**
-	 * °´ÐÐ¶ÁÈ¡Êý¾Ý
+	 * ï¿½ï¿½ï¿½Ð¶ï¿½È¡ï¿½ï¿½ï¿½
+	 * 
 	 * @param req
 	 * @return
 	 */
-	public static String reqText(HttpServletRequest req){
+	public static String reqText(HttpServletRequest req) {
 		StringBuffer str = new StringBuffer();
 		String line = null;
 		try {
-			BufferedReader reader =req.getReader();
-			while((line = reader.readLine()) != null) {
+			BufferedReader reader = req.getReader();
+			while ((line = reader.readLine()) != null) {
 				str.append(line);
 			}
-		}catch(Exception e) {
-			//System.out.println("Error reading JSON string: " + e.toString());
-		}	
+		} catch (Exception e) {
+			// System.out.println("Error reading JSON string: " + e.toString());
+		}
 		return str.toString();
 	}
-	
-	
+
 	/**
-	 * °ÑLISTÊý¾Ý×ª³ÉJSON
+	 * ï¿½ï¿½LISTï¿½ï¿½ï¿½×ªï¿½ï¿½JSON
+	 * 
 	 * @param rep
 	 * @param o
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public static void repJsonList(HttpServletResponse rep,List list) throws IOException{
+	public static void repJsonList(HttpServletResponse rep, List list)
+			throws IOException {
 		rep.setHeader("Pragma", "no-cache");
 		rep.setHeader("Cache-Control", "no-cache, must-revalidate");
 		rep.setHeader("Pragma", "no-cache");
-        Map map = new HashMap();
-        map.put("rows", list);
-        map.put("total",list.size()); 
+		Map map = new HashMap();
+		map.put("rows", list);
+		map.put("total", list.size());
 		JSONArray jsonArray = JSONArray.fromObject(map);
 		String str = jsonArray.toString();
-		String modifyed_str = str.substring(1,str.length()-1);
-		if(log.isDebugEnabled()){
-			log.debug("repJson write JSON="+modifyed_str);
+		String modifyed_str = str.substring(1, str.length() - 1);
+		if (log.isDebugEnabled()) {
+			log.debug("repJson write JSON=" + modifyed_str);
 		}
 		rep.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = rep.getWriter();
-		//System.out.println(modifyed_str);
+		// System.out.println(modifyed_str);
 		out.print(modifyed_str);
 		rep.getWriter().flush();
 		rep.getWriter().close();
 	}
+
 	/**
-	 * °ÑMAPÊý¾Ý×ª³ÉJSON
+	 * ï¿½ï¿½MAPï¿½ï¿½ï¿½×ªï¿½ï¿½JSON
+	 * 
 	 * @param rep
 	 * @param o
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public static void repJsonMap(HttpServletResponse rep,Map map) throws IOException{
+	public static void repJsonMap(HttpServletResponse rep, Map map)
+			throws IOException {
 		rep.setHeader("Pragma", "no-cache");
 		rep.setHeader("Cache-Control", "no-cache, must-revalidate");
 		rep.setHeader("Pragma", "no-cache");
 		JSONArray jsonArray = JSONArray.fromObject(map);
 		String str = jsonArray.toString();
-		String modifyed_str = str.substring(1,str.length()-1);
-		if(log.isDebugEnabled()){
-			log.debug("repJson write JSON="+modifyed_str);
+		String modifyed_str = str.substring(1, str.length() - 1);
+		if (log.isDebugEnabled()) {
+			log.debug("repJson write JSON=" + modifyed_str);
 		}
 		rep.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = rep.getWriter();
-		//System.out.println(modifyed_str);
+		// System.out.println(modifyed_str);
 		out.print(modifyed_str);
 		rep.getWriter().flush();
 		rep.getWriter().close();
 	}
-	
+
 	/**
 	 * AjaxResult
+	 * 
 	 * @param rep
 	 * @param o
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public static void AjaxResult(HttpServletResponse rep,String content) throws IOException{
+	public static void AjaxResult(HttpServletResponse rep, String content)
+			throws IOException {
 		rep.setHeader("Pragma", "no-cache");
 		rep.setHeader("Cache-Control", "no-cache, must-revalidate");
 		rep.setHeader("Pragma", "no-cache");
 		rep.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = rep.getWriter();
-		//System.out.println(content);
+		// System.out.println(content);
 		out.print(content);
 		rep.getWriter().flush();
 		rep.getWriter().close();
 	}
-	
-	
-	public static void repJsonListOnly(HttpServletResponse rep,List list) throws IOException{
+
+	public static void repJsonListOnly(HttpServletResponse rep, List list)
+			throws IOException {
 		rep.setHeader("Pragma", "no-cache");
 		rep.setHeader("Cache-Control", "no-cache, must-revalidate");
 		rep.setHeader("Pragma", "no-cache");
-//        Map map = new HashMap();
-//        map.put("rows", list);
-//        map.put("total",list.size()); 
+		// Map map = new HashMap();
+		// map.put("rows", list);
+		// map.put("total",list.size());
 		JSONArray jsonArray = JSONArray.fromObject(list);
 		String str = jsonArray.toString();
-		String modifyed_str = str.substring(1,str.length()-1);
-		if(log.isDebugEnabled()){
-			log.debug("repJson write JSON="+modifyed_str);
+		String modifyed_str = str.substring(1, str.length() - 1);
+		if (log.isDebugEnabled()) {
+			log.debug("repJson write JSON=" + modifyed_str);
 		}
 		rep.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = rep.getWriter();
-		//System.out.println(modifyed_str);
+		// System.out.println(modifyed_str);
 		out.print(modifyed_str);
 		rep.getWriter().flush();
 		rep.getWriter().close();

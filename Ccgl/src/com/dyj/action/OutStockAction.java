@@ -39,7 +39,8 @@ import com.dyj.util.ResponseUtil3;
 import com.dyj.util.StringUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class OutStockAction extends ActionSupport implements ServletRequestAware{
+public class OutStockAction extends ActionSupport implements
+		ServletRequestAware {
 	private String page;
 	private String rows;
 	private String id;
@@ -49,7 +50,6 @@ public class OutStockAction extends ActionSupport implements ServletRequestAware
 	private OutStock outstock;
 
 	private HttpServletRequest request;
-
 
 	public OutStock getOutstock() {
 		return outstock;
@@ -110,7 +110,6 @@ public class OutStockAction extends ActionSupport implements ServletRequestAware
 	DbUtil dbUtil = new DbUtil();
 	OutstockDao outstockdao = new OutstockDao();
 	OperateDao operateDao = new OperateDao();
-
 
 	@Override
 	public String execute() throws Exception {
@@ -181,13 +180,15 @@ public class OutStockAction extends ActionSupport implements ServletRequestAware
 
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("currentUser");
-			Operate operate = new Operate();
 			
+			//操作历史
+			Operate operate = new Operate();
 			operate.setGoodid(outstock.getGoodid());
 			operate.setUserid(user.getId());
 			operate.setOperatetime(new Date());
 			operate.setOperateType(2);
 			operate.setRemark(outstock.getOutstocknote());
+			operate.setStorageid(outstock.getStorageid());
 			operateDao.operateAdd(con, operate);
 
 			if (StringUtil.isNotEmpty(id)) {
@@ -220,7 +221,7 @@ public class OutStockAction extends ActionSupport implements ServletRequestAware
 		try {
 			con = dbUtil.getCon();
 			Workbook wb = new HSSFWorkbook();
-			String headers[]={"编号","商品名称","售价","出库日期","数量","备注"};
+			String headers[] = { "编号", "商品名称", "售价", "出库日期", "数量", "备注" };
 
 			if (outstock == null) {
 				outstock = new OutStock();
@@ -228,7 +229,8 @@ public class OutStockAction extends ActionSupport implements ServletRequestAware
 			outstock.setGoodname(g_name);
 			ResultSet rs = outstockdao.outstockList(con, null, outstock);
 			ExcelUtil.fillExcelData(rs, wb, headers);
-			ResponseUtil3.export(ServletActionContext.getResponse(), wb, "利用模版导出excel.xls");
+			ResponseUtil3.export(ServletActionContext.getResponse(), wb,
+					"利用模版导出excel.xls");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -310,6 +312,6 @@ public class OutStockAction extends ActionSupport implements ServletRequestAware
 
 	public void setServletRequest(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		this.request=request;
+		this.request = request;
 	}
 }

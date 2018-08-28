@@ -26,87 +26,107 @@ import com.dyj.dao.StorageDao;
 
 public class ExcelUtil {
 
-	public static void fillExcelData(ResultSet rs,Workbook wb,String[] headers)throws Exception{
-		int rowIndex=0;
-		Sheet sheet=wb.createSheet();
-		Row row=sheet.createRow(rowIndex++);
-		for(int i=0;i<headers.length;i++){
+	public static void fillExcelData(ResultSet rs, Workbook wb, String[] headers)
+			throws Exception {
+		int rowIndex = 0;
+		Sheet sheet = wb.createSheet();
+		Row row = sheet.createRow(rowIndex++);
+		for (int i = 0; i < headers.length; i++) {
 			row.createCell(i).setCellValue(headers[i]);
 		}
-		while(rs.next()){
-			row=sheet.createRow(rowIndex++);
-			for(int i=0;i<headers.length;i++){
-				row.createCell(i).setCellValue(rs.getObject(i+1).toString());
+		while (rs.next()) {
+			row = sheet.createRow(rowIndex++);
+			for (int i = 0; i < headers.length; i++) {
+				row.createCell(i).setCellValue(rs.getObject(i + 1).toString());
 			}
 		}
 	}
-	public static Workbook fillExcelDataWithTemplate(ResultSet rs,String templateFileName,Connection con)throws Exception{
-		InputStream inp=ExcelUtil.class.getResourceAsStream("/template/"+templateFileName);
-		POIFSFileSystem fs=new POIFSFileSystem(inp);
-		Workbook wb=new HSSFWorkbook(fs);
-		Sheet sheet=wb.getSheetAt(0);
-		// »ñÈ¡ÁÐÊý
-		int cellNums=sheet.getRow(0).getLastCellNum();
-		int rowIndex=1;
-		List list = new ArrayList();;
+
+	public static Workbook fillExcelDataWithTemplate(ResultSet rs,
+			String templateFileName, Connection con) throws Exception {
+		InputStream inp = ExcelUtil.class.getResourceAsStream("/template/"
+				+ templateFileName);
+		POIFSFileSystem fs = new POIFSFileSystem(inp);
+		Workbook wb = new HSSFWorkbook(fs);
+		Sheet sheet = wb.getSheetAt(0);
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+		int cellNums = sheet.getRow(0).getLastCellNum();
+		int rowIndex = 1;
+		List list = new ArrayList();
+		;
 		StorageDao storagedao = new StorageDao();
 		OutstockDao outstockdao = new OutstockDao();
 		GoodDao gooddao = new GoodDao();
-		ResultSet sr=gooddao.goodList(con, null, null);
-		while(sr.next()){
-		  list.add(sr.getString("goodname")+"-"+sr.getString("id"));
+		ResultSet sr = gooddao.goodList(con, null, null);
+		while (sr.next()) {
+			list.add(sr.getString("goodname") + "-" + sr.getString("id"));
 		}
-		List list2 = new ArrayList();;
-		ResultSet er=storagedao.storageList4(con,null);
-		while(er.next()){
-		  list2.add(er.getString("inprice")+"-"+er.getString("id"));
+		List list2 = new ArrayList();
+		;
+		ResultSet er = storagedao.storageList4(con, null);
+		while (er.next()) {
+			list2.add(er.getString("inprice") + "-" + er.getString("id"));
 		}
 		List list3 = new ArrayList();
-		ResultSet qr=outstockdao.outstockList3(con,null);
-		while(qr.next()){
-		  list3.add(qr.getString("saleprice")+"-"+qr.getString("outstockid"));
+		ResultSet qr = outstockdao.outstockList3(con, null);
+		while (qr.next()) {
+			list3.add(qr.getString("saleprice") + "-"
+					+ qr.getString("outstockid"));
 		}
-		String[] array1= (String[]) list.toArray(new String[2]);
+		String[] array1 = (String[]) list.toArray(new String[2]);
 		String[] array2 = (String[]) list2.toArray(new String[2]);
-		String[] array3= (String[]) list3.toArray(new String[2]);
-		while(rs.next()){
-			Row row=sheet.createRow(rowIndex++);
-			for(int i=0;i<cellNums;i++){
+		String[] array3 = (String[]) list3.toArray(new String[2]);
+		while (rs.next()) {
+			Row row = sheet.createRow(rowIndex++);
+			for (int i = 0; i < cellNums; i++) {
 				Cell cell = row.createCell(i);
-				if(i==0){ 
-					CellRangeAddressList regions = new CellRangeAddressList(rowIndex-1,rowIndex-1,0,0);
-					DVConstraint constraint = DVConstraint.createExplicitListConstraint(array1);
-					HSSFDataValidation data_validation = new HSSFDataValidation(regions,constraint);
+				if (i == 0) {
+					CellRangeAddressList regions = new CellRangeAddressList(
+							rowIndex - 1, rowIndex - 1, 0, 0);
+					DVConstraint constraint = DVConstraint
+							.createExplicitListConstraint(array1);
+					HSSFDataValidation data_validation = new HSSFDataValidation(
+							regions, constraint);
 					sheet.addValidationData(data_validation);
-					cell.setCellValue(rs.getString("goodname")+"-"+rs.getString("goodid"));
-				}else if(i==2){
-					CellRangeAddressList regions = new CellRangeAddressList(1,4,2,2);
-					DVConstraint constraint = DVConstraint.createExplicitListConstraint(array2);
-					HSSFDataValidation data_validation = new HSSFDataValidation(regions,constraint);
+					cell.setCellValue(rs.getString("goodname") + "-"
+							+ rs.getString("goodid"));
+				} else if (i == 2) {
+					CellRangeAddressList regions = new CellRangeAddressList(1,
+							4, 2, 2);
+					DVConstraint constraint = DVConstraint
+							.createExplicitListConstraint(array2);
+					HSSFDataValidation data_validation = new HSSFDataValidation(
+							regions, constraint);
 					sheet.addValidationData(data_validation);
-					cell.setCellValue(rs.getString("inprice")+"-"+rs.getString("id"));
-				}else if(i==3){
-					CellRangeAddressList regions = new CellRangeAddressList(1,4,3,3);
-					DVConstraint constraint = DVConstraint.createExplicitListConstraint(array3);
-					HSSFDataValidation data_validation = new HSSFDataValidation(regions,constraint);
+					cell.setCellValue(rs.getString("inprice") + "-"
+							+ rs.getString("id"));
+				} else if (i == 3) {
+					CellRangeAddressList regions = new CellRangeAddressList(1,
+							4, 3, 3);
+					DVConstraint constraint = DVConstraint
+							.createExplicitListConstraint(array3);
+					HSSFDataValidation data_validation = new HSSFDataValidation(
+							regions, constraint);
 					sheet.addValidationData(data_validation);
-					cell.setCellValue(rs.getString("saleprice")+"-"+rs.getString("outstockid"));
-				}else{
-				cell.setCellValue(rs.getObject(i+1).toString());
+					cell.setCellValue(rs.getString("saleprice") + "-"
+							+ rs.getString("outstockid"));
+				} else {
+					cell.setCellValue(rs.getObject(i + 1).toString());
 				}
 			}
 		}
 		return wb;
 	}
-	public static String formatCell(HSSFCell hssfCell){
-		if(hssfCell==null){
+
+	public static String formatCell(HSSFCell hssfCell) {
+		if (hssfCell == null) {
 			return "";
-		}else{
-			if(hssfCell.getCellType()==HSSFCell.CELL_TYPE_BOOLEAN){
+		} else {
+			if (hssfCell.getCellType() == HSSFCell.CELL_TYPE_BOOLEAN) {
 				return String.valueOf(hssfCell.getBooleanCellValue());
-			}else if(hssfCell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+			} else if (hssfCell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
 				return String.valueOf(hssfCell.getNumericCellValue());
-			}else{
+			} else {
 				return String.valueOf(hssfCell.getStringCellValue());
 			}
 		}

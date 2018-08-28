@@ -37,7 +37,7 @@ import com.dyj.util.ResponseUtil3;
 import com.dyj.util.StringUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class StorageAction extends ActionSupport implements ServletRequestAware{
+public class StorageAction extends ActionSupport implements ServletRequestAware {
 	private Storage storage;
 	private String page;
 	private String rows;
@@ -176,7 +176,6 @@ public class StorageAction extends ActionSupport implements ServletRequestAware{
 			int saveNums = 0;
 			JSONObject result = new JSONObject();
 
-			
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("currentUser");
 			Operate operate = new Operate();
@@ -185,6 +184,7 @@ public class StorageAction extends ActionSupport implements ServletRequestAware{
 			operate.setOperatetime(new Date());
 			operate.setOperateType(1);
 			operate.setRemark(storage.getStoragenote());
+			operate.setStorageid(storage.getId());
 			operateDao.operateAdd(con, operate);
 
 			if (StringUtil.isNotEmpty(id)) {// 修改
@@ -241,16 +241,19 @@ public class StorageAction extends ActionSupport implements ServletRequestAware{
 	}
 
 	public String export2() throws Exception {
-		Connection con=null;
+		Connection con = null;
 		try {
-			con=dbUtil.getCon();
-			ResultSet rs=storagedao.storageList(con, null, null);
-			Workbook wb=ExcelUtil.fillExcelDataWithTemplate(storagedao.storageList2(con, null,null), "storageExporTemplate.xls",con);
-			ResponseUtil3.export(ServletActionContext.getResponse(), wb, "利用模版导出excel.xls");
+			con = dbUtil.getCon();
+			ResultSet rs = storagedao.storageList(con, null, null);
+			Workbook wb = ExcelUtil.fillExcelDataWithTemplate(
+					storagedao.storageList2(con, null, null),
+					"storageExporTemplate.xls", con);
+			ResponseUtil3.export(ServletActionContext.getResponse(), wb,
+					"利用模版导出excel.xls");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				dbUtil.closeCon(con);
 			} catch (Exception e) {
@@ -265,7 +268,7 @@ public class StorageAction extends ActionSupport implements ServletRequestAware{
 		POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(
 				userUploadFile));
 		HSSFWorkbook wb = new HSSFWorkbook(fs);
-		HSSFSheet hssfSheet = wb.getSheetAt(0); 
+		HSSFSheet hssfSheet = wb.getSheetAt(0);
 		if (hssfSheet != null) {
 			for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {
 				HSSFRow hssfRow = hssfSheet.getRow(rowNum);
@@ -303,6 +306,6 @@ public class StorageAction extends ActionSupport implements ServletRequestAware{
 
 	public void setServletRequest(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		this.request=request;
+		this.request = request;
 	}
 }

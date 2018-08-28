@@ -123,14 +123,17 @@
 	    	$("#dlg3").dialog('open').dialog('setTitle','选择商品');
 	    }
 	    function turnback(){
+	    	debugger;
 	    	var selectedRows=$("#dg2").datagrid("getSelections");
 	    	if(selectedRows.length!=1){
 	    		$.messager.alert("系统提示","请选择一条要修改的数据");
 	    		return;
 	    	}
 	    	var row=selectedRows[0];
+	    	console.log(row)
 	    	$("#goodname").val(row.goodname);
-	    	$("#goodid").val(row.goodid);
+	    	$("#goodid").val(row.goodid);//商品ID
+	    	$("#storageid").val(row.id);//入库ID	    	
 	    	$("#dlg3").dialog("close");
 	    }
 	    function exportUser2(){
@@ -189,7 +192,8 @@
           </td>
            <td ><input class="easyui-datebox" name="outstock.outstockdate"  id="outstockdate" class="easyui-validatebox" required="true" editable="false">
           </td>
-          <td><input type="hidden" name="outstock.goodid"  id="goodid"  >
+          <td><input type="hidden" name="outstock.goodid"  id="goodid"  />
+          <input type="hidden" name="outstock.storageid"  id="goodid"  >
           </td>
           <td align="center">数量：
           </td>
